@@ -102,9 +102,9 @@ app.get('/create-event.html', (req, res) => {
 });
 
 // Handle Unmatched API Routes ---
-app.all('/api/', (req, res, next) => {
-  next(new AppError(`Can't find ${req.originalUrl} on this server`, 404));
-});
+// app.all('/api/', (req, res, next) => {
+//   next(new AppError(`Can't find ${req.originalUrl} on this server`, 404));
+// });
 
 // Global Error Handler
 app.use((err, req, res, next) => {
