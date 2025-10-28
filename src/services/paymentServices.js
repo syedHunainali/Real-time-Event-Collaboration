@@ -17,7 +17,7 @@ exports.createCheckoutSession = async (eventId, user) => {
             price_data: {
                 currency: 'usd',
                 product_data: { name: event.title },
-                unit_amount: event.price * 100, // Price in cents
+                unit_amount: event.price * 100, 
             },
             quantity: 1,
         }],
@@ -43,7 +43,7 @@ exports.handleSuccessfulPayment = async (session) => {
     const { eventId, userId } = session.metadata;
 
     const payment = await Payment.findOne({ stripeSessionId: session.id });
-    if (!payment || payment.status === 'succeeded') return null; // Idempotency check
+    if (!payment || payment.status === 'succeeded') return null; // check
 
     const event = await Event.findOneAndUpdate({
         _id: eventId,

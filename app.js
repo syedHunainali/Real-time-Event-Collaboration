@@ -6,7 +6,7 @@ const path = require('path');
 const morgan = require('morgan');
 const AppError = require('./src/utils/appError');
 
-// Routers and the payment controller for the webhook
+// Routers and payment controller
 const eventRouter = require('./src/routes/eventRouter');
 const authRouter = require('./src/routes/authRouter');
 const adminRouter = require('./src/routes/adminRouter');
@@ -15,7 +15,6 @@ const socketRouter = require('./src/routes/messageRouter');
 
 const app = express();
 
-// --- Global Middlewares ---
 // Development logging
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
@@ -24,14 +23,13 @@ if (process.env.NODE_ENV === 'development') {
 // --- Security Headers ---
 app.use(helmet());
 
-// --- CORS Configuration ---
-//  Allow multiple local dev origins for flexibility
+// CORS Configuration
+//  Allow multiple local dev origins for flexibility so that it will not stop any request from these origins
 const allowedOrigins = [
   'http://127.0.0.1:5500',
   'http://localhost:5500',
   'http://192.168.0.33:5500', // optional: for LAN testing
 ];
-
 app.use(
   cors({
     origin: function (origin, callback) {
@@ -84,7 +82,7 @@ app.use('/api/socket', socketRouter);
 const frontendDir = path.join(__dirname, '../front-end');
 app.use(express.static(frontendDir));
 
-// --- Serve HTML Pages ---
+// Serve HTML Pages
 app.get('/', (req, res) => {
   res.sendFile(path.join(frontendDir, 'index.html'));
 });
@@ -101,12 +99,13 @@ app.get('/create-event.html', (req, res) => {
   res.sendFile(path.join(frontendDir, 'create-event.html'));
 });
 
-// Handle Unmatched API Routes ---
-// app.all('/api/', (req, res, next) => {
-//   next(new AppError(`Can't find ${req.originalUrl} on this server`, 404));
-// });
+// handle / API Route to okey
+app.all('/api/', (req, res) => {
+  console.log("Okey");
+  res.send("Okey");
+});
 
-// Global Error Handler
+// global Error Handler
 app.use((err, req, res, next) => {
   console.error('ERROR', err.message);
   err.statusCode = err.statusCode || 500;

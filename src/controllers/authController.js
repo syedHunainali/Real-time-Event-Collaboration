@@ -4,7 +4,7 @@ const asyncHandler = require('../utils/asyncErrorHandler');
 
 exports.signup = asyncHandler(async (req, res, next) => {
     const { user, token } = await authService.signup(req.body);
-    await notificationService.sendWelcomeNotification(user); // welcome email
+    await notificationService.sendWelcomeNotification(user); 
     res.status(201).json({ status: 'success', token, data: { user } });
 });
 

@@ -1,10 +1,10 @@
 const Message = require('../models/messageModel');
-const User = require('../models/userModel'); // Assuming path to userModel
-const AppError = require('../utils/appError'); // Assuming path to appError
+const User = require('../models/userModel'); 
+const AppError = require('../utils/appError'); 
 
 exports.sendMessageFromPostman = async (req, res, next) => {
     try {
-        // 1. Get the io instance from the app object
+        // 1. Get the io instance from the app
         const io = req.app.get('io');
         
         // 2. Get data from Postman's request body
