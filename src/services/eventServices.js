@@ -1,4 +1,5 @@
 const Event = require('../models/eventModel');
+const User = require('../models/userModel'); 
 
 exports.createEvent = async (eventData) => {
     return await Event.create(eventData);
@@ -53,3 +54,10 @@ exports.joinFreeEvent = async (eventId, userId) => {
     );
 };
 
+exports.getEventsByUserId = async (userId) => {
+    return await Event.find({ organizerId: userId }).populate('organizerId', 'name email');
+};
+
+exports.getAllOrganizers = async () => {
+  return await User.find({ role: "event-organizer" }).select('_id name');
+};

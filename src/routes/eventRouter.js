@@ -3,7 +3,9 @@ const eventController = require('../controllers/eventController');
 const authMiddleware = require('../middlewares/authMiddleware');
 const upload = require('../config/cloudinary');
 
+
 const router = express.Router();
+router.get('/organizers', eventController.getAllOrganizers);
 
 router.route('/')
     .get(eventController.getAllEvents)
@@ -13,6 +15,8 @@ router.route('/')
         upload.single('coverImage'),
         eventController.createEvent
     );
+router.route('/my-events')
+    .get(authMiddleware.protect, eventController.getmycreatedevents);
 
 router.route('/:id')
     .get(eventController.getEvent)
